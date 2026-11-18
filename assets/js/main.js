@@ -2,6 +2,15 @@
 // 1) Mobile nav toggle
 // 2) Contact form submission via Web3Forms (static, no backend needed)
 
+(function () {
+  var hide = function () {
+    var el = document.getElementById('preloader');
+    if (el) el.classList.add('is-hidden');
+  };
+  window.addEventListener('load', hide);
+  setTimeout(hide, 2500); // safety fallback so the site never stays stuck behind it
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.main-nav');

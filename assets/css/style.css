@@ -18,6 +18,50 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--navy-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .4s ease, visibility .4s ease;
+}
+#preloader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#preloader .ring {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#preloader .ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid rgba(212, 175, 90, 0.25);
+  border-top-color: var(--gold-light);
+  animation: preloader-spin 0.9s linear infinite;
+}
+#preloader img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+@keyframes preloader-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #preloader .ring::before { animation: none; }
+}
+
 body {
   margin: 0;
   background: var(--white);
