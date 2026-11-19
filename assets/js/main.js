@@ -3,9 +3,13 @@
 // 2) Contact form submission via Web3Forms (static, no backend needed)
 
 (function () {
+  var minDisplay = 700; // always show the preloader at least this long, even on a fast/cached load
+  var start = Date.now();
   var hide = function () {
     var el = document.getElementById('preloader');
-    if (el) el.classList.add('is-hidden');
+    if (!el) return;
+    var wait = Math.max(0, minDisplay - (Date.now() - start));
+    setTimeout(function () { el.classList.add('is-hidden'); }, wait);
   };
   window.addEventListener('load', hide);
   setTimeout(hide, 2500); // safety fallback so the site never stays stuck behind it
