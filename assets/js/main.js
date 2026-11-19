@@ -3,7 +3,7 @@
 // 2) Contact form submission via Web3Forms (static, no backend needed)
 
 (function () {
-  var minDisplay = 1800; // always show the preloader at least this long, even on a fast/cached load
+  var minDisplay = 2200; // matches the logo's grow+spin+settle+fade animation length in style.css
   var start = Date.now();
   var hide = function () {
     var el = document.getElementById('preloader');
