@@ -34,32 +34,23 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
 }
 #preloader .ring {
-  position: relative;
-  width: 108px;
-  height: 108px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-#preloader .ring::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 3px solid rgba(212, 175, 90, 0.25);
-  border-top-color: var(--gold-light);
-  animation: preloader-spin 0.9s linear infinite;
-}
 #preloader img {
-  width: 56px;
-  height: 56px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
+  animation: preloader-spin-in 1.4s cubic-bezier(.3,.7,.3,1) infinite;
 }
-@keyframes preloader-spin {
-  to { transform: rotate(360deg); }
+@keyframes preloader-spin-in {
+  0%   { transform: scale(0.3) rotate(0deg);   opacity: 0.4; }
+  60%  { transform: scale(1.05) rotate(360deg); opacity: 1; }
+  100% { transform: scale(1) rotate(360deg);   opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #preloader .ring::before { animation: none; }
+  #preloader img { animation: none; }
 }
 
 body {
