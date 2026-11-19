@@ -462,6 +462,7 @@ form.contact-form {
 @media (max-width: 760px) {
   .footer-grid { grid-template-columns: 1fr; }
 }
+.site-footer p { color: #cfd8e3; }
 .site-footer a {
   color: #cfd8e3;
   text-decoration: none;
