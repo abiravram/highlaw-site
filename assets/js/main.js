@@ -3,16 +3,44 @@
 // 2) Contact form submission via Web3Forms (static, no backend needed)
 
 (function () {
-  var minDisplay = 2200; // matches the logo's grow+spin+settle+fade animation length in style.css
+  var growDuration = 1700; // must match the CSS "preloader-grow" animation-duration
   var start = Date.now();
-  var hide = function () {
-    var el = document.getElementById('preloader');
-    if (!el) return;
-    var wait = Math.max(0, minDisplay - (Date.now() - start));
-    setTimeout(function () { el.classList.add('is-hidden'); }, wait);
+  var done = false;
+
+  var morphAndHide = function () {
+    if (done) return;
+    done = true;
+    var wrap = document.getElementById('preloader');
+    var logo = wrap ? wrap.querySelector('img') : null;
+    var target = document.querySelector('.brand img');
+
+    if (!wrap) return;
+    if (!logo || !target) { wrap.classList.add('is-hidden'); return; }
+
+    // Freeze the logo exactly where the grow animation left it, without a visual jump.
+    var current = logo.getBoundingClientRect();
+    logo.style.animation = 'none';
+    logo.style.transform = 'translate(0,0) scale(' + (current.width / logo.offsetWidth) + ') rotate(0deg)';
+    // eslint-disable-next-line no-unused-expressions
+    logo.offsetHeight; // force reflow so the frozen transform applies before we transition from it
+
+    var goal = target.getBoundingClientRect();
+    var dx = (goal.left + goal.width / 2) - (current.left + current.width / 2);
+    var dy = (goal.top + goal.height / 2) - (current.top + current.height / 2);
+    var scaleRatio = goal.width / current.width;
+
+    logo.style.transition = 'transform .7s cubic-bezier(.4,0,.2,1)';
+    logo.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + (scaleRatio * (current.width / logo.offsetWidth)) + ')';
+
+    setTimeout(function () { wrap.style.transition = 'opacity .45s ease'; wrap.classList.add('is-hidden'); }, 420);
   };
-  window.addEventListener('load', hide);
-  setTimeout(hide, 2500); // safety fallback so the site never stays stuck behind it
+
+  var trigger = function () {
+    var wait = Math.max(0, growDuration - (Date.now() - start));
+    setTimeout(morphAndHide, wait);
+  };
+  window.addEventListener('load', trigger);
+  setTimeout(trigger, 4000); // safety fallback so the site never stays stuck behind it
 })();
 
 document.addEventListener('DOMContentLoaded', function () {
